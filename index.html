@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d28">
+<title>Navigator TV</title>
+<style>
+:root{--bg:#070b20;--panel:#101936;--panel2:#17234a;--blue:#08bfff;--pink:#d000ff;--text:#f5f7ff;--muted:#aab5d3}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#172c70 0,transparent 42%),linear-gradient(135deg,#05091b,#0b1230 65%,#160b38);color:var(--text);font:15px/1.45 system-ui,Segoe UI,Arial,sans-serif;min-height:100vh}
+button,input{font:inherit}button{cursor:pointer;color:inherit}.app{max-width:1500px;margin:auto;padding:22px;min-height:100vh}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:clamp(22px,4vw,34px);font-style:italic;letter-spacing:-1px}.logo{width:45px;height:45px;border-radius:14px;background:linear-gradient(135deg,#04d8ff,#8b22ff 65%,#f000d8);display:grid;place-items:center;font-size:26px;box-shadow:0 0 25px #00baff66}.brand span:last-child{background:linear-gradient(90deg,#fff,#a8dfff);background-clip:text;color:transparent}.brand b{background:linear-gradient(120deg,#ff00dd,#742aff);padding:0 8px;border-radius:9px;color:white}.top-actions{display:flex;gap:10px;align-items:center}.search{width:min(260px,35vw);background:#111c3c;border:1px solid #31416e;border-radius:12px;padding:11px 14px;color:white;outline:none}.btn{border:1px solid #344775;background:#142044;padding:10px 14px;border-radius:11px}.btn:hover{border-color:var(--blue);box-shadow:0 0 15px #00bfff44}.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:20px}.sidebar,.content{background:#0b1430d9;border:1px solid #24345e;border-radius:18px;box-shadow:0 18px 55px #0005}.sidebar{padding:16px;height:max-content;position:sticky;top:15px}.side-brand{font-size:18px;font-weight:850;margin:4px 8px 20px}.nav{display:flex;flex-direction:column;gap:7px}.nav button{border:1px solid transparent;background:transparent;text-align:left;padding:12px;border-radius:11px;color:#c5cee5}.nav button.active,.nav button:hover{background:linear-gradient(100deg,#087edb,#0750a9);border-color:#19c5ff;box-shadow:0 0 16px #009dff66;color:white}.content{padding:18px;min-width:0}.hero{min-height:220px;border-radius:16px;overflow:hidden;position:relative;display:flex;align-items:center;padding:clamp(20px,5vw,55px);background:linear-gradient(110deg,#0877ef,#15104d 43%,#7d005f 70%,#ff5c00);isolation:isolate}.hero:before,.hero:after{content:"";position:absolute;inset:-40%;z-index:-1;transform:rotate(-18deg);background:repeating-linear-gradient(100deg,transparent 0 70px,#ffffff18 72px 78px,transparent 80px 145px)}.hero:after{background:radial-gradient(circle at 75% 45%,#ffb00088,transparent 30%),radial-gradient(circle at 25% 25%,#00eaff66,transparent 35%)}.hero-copy{max-width:570px}.hero .mini{font-size:13px;letter-spacing:5px;font-weight:800;color:#d9eaff}.hero h1{font-size:clamp(35px,6vw,64px);line-height:1;margin:13px 0;text-shadow:0 5px 18px #0008;font-style:italic}.hero h1 span{background:linear-gradient(120deg,#fff,#c5eaff);background-clip:text;color:transparent}.hero p{font-weight:650;font-size:18px;margin:0}.hero .playmark{position:absolute;right:8%;font-size:clamp(70px,12vw,140px);opacity:.25;text-shadow:0 0 30px #fff}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 2px 12px}.section-head h2{font-size:19px;margin:0}.muted{color:var(--muted);font-size:13px}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:13px}.card{background:linear-gradient(145deg,#1a2a55,#101a38);border:1px solid #2c3c68;border-radius:13px;overflow:hidden;min-width:0;transition:.2s}.card:hover{transform:translateY(-3px);border-color:#00bfff;box-shadow:0 8px 22px #008cff22}.thumb{height:92px;background:linear-gradient(135deg,#075ca8,#24115f,#a3008c);display:grid;place-items:center;font-size:34px;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover}.card-info{padding:10px}.card-info strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}.card-info small{color:var(--muted)}.card-actions{display:flex;gap:6px;margin-top:8px}.card-actions button{flex:1;background:#202f58;border:0;border-radius:7px;padding:6px;font-size:12px}
+.player-wrap{display:none;margin-top:18px;background:#030611;border:1px solid #30416e;border-radius:14px;overflow:hidden}.player-wrap.show{display:block}.player-head{padding:11px 14px;display:flex;justify-content:space-between;align-items:center;background:#111c3b}.player-wrap video{width:100%;max-height:55vh;background:#000;display:block}.empty{padding:32px;text-align:center;color:var(--muted);border:1px dashed #344775;border-radius:13px}.notice{margin-top:14px;color:#aebbd9;font-size:12px}.file-input{display:none}#adminPanel label{display:block;color:#dbe6ff;font-size:13px;margin-top:8px}
+@media(max-width:760px){.app{padding:12px}.layout{grid-template-columns:1fr}.sidebar{position:static;padding:10px}.side-brand{display:none}.nav{flex-direction:row;overflow:auto}.nav button{white-space:nowrap;padding:9px 11px}.content{padding:12px}.hero{min-height:190px}.topbar{align-items:flex-start;flex-wrap:wrap}.top-actions{width:100%}.search{flex:1;width:auto}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="logo">▶</div><span>NAVIGATOR <b>TV</b></span></div>
+  <div class="top-actions">
+    <input id="search" class="search" placeholder="Cari saluran..." aria-label="Cari saluran">
+    <button class="btn" id="adminBtn">⚙ Admin</button>
+    <button class="btn" id="importBtn">＋ Playlist</button>
+    <input id="playlistFile" class="file-input" type="file" accept=".m3u,.m3u8,.txt">
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="side-brand">▶ NAVIGATOR <b style="color:#df38ff">TV</b></div>
+    <nav class="nav" id="nav">
+      <button class="active" data-page="Home">⌂　Home</button>
+      <button data-page="Live TV">▣　Live TV</button>
+      <button data-page="Movies">▰　Movies</button>
+      <button data-page="Series">▤　Series</button>
+      <button data-page="Kids">▦　Kids</button>
+      <button data-page="Favorites">★　Favorites</button>
+      <button data-page="Settings">⚙　Settings</button>
+    </nav>
+  </aside>
+  <main class="content">
+    <section class="hero">
+      <div class="hero-copy"><div class="mini">STREAM • WATCH • ENJOY</div><h1><span>NAVIGATOR</span> TV</h1><p>Your Ultimate Entertainment</p></div>
+      <div class="playmark">▶</div>
+    </section>
+    <div id="pageHeading" class="section-head"><h2>Popular Now</h2><span class="muted" id="count">0 saluran</span></div>
+    <section id="cards" class="cards"></section>
+    <div id="empty" class="empty" style="display:none">Belum ada saluran. Tekan <b>＋ Playlist</b> untuk masukkan fail M3U/M3U8.</div>
+
+    <section class="player-wrap" id="adminPanel" style="padding:16px">
+      <div class="player-head" style="margin:-16px -16px 14px"><strong>⚙ ADMIN PLAYLIST</strong><button class="btn" id="closeAdmin">Tutup ✕</button></div>
+      <p class="muted">Urus playlist pada peranti dan pelayar ini.</p>
+      <label for="playlistName">Nama playlist</label><input id="playlistName" class="search" style="width:100%;margin:8px 0" placeholder="Contoh: Playlist Utama">
+      <label for="adminFile">Fail playlist M3U / M3U8</label><input id="adminFile" type="file" accept=".m3u,.m3u8,.txt" style="display:block;margin:8px 0 14px">
+      <button class="btn" id="saveAdminPlaylist">Simpan & jadikan utama</button><div class="section-head"><h2>Playlist tersimpan</h2></div><div id="savedPlaylists" class="cards"></div>
+      <p class="notice">Nota: Playlist disimpan dalam pelayar/peranti ini sahaja. Login yang benar-benar selamat dan perkongsian playlist antara semua pengguna memerlukan backend/server.</p>
+    </section>
+
+    <section class="player-wrap" id="playerWrap">
+      <div class="player-head"><strong id="nowPlaying">Sedang dimainkan</strong><button class="btn" id="closePlayer">Tutup ✕</button></div>
+      <video id="video" controls playsinline></video>
+    </section>
+    <p class="notice">Masukkan playlist M3U milik anda atau pautan strim yang anda dibenarkan gunakan. Sesetengah strim mungkin tidak menyokong main balik dalam pelayar.</p>
+  </main>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+const $=id=>document.getElementById(id);
+let channels=[],favorites=JSON.parse(localStorage.getItem('navigator-favs')||'[]'),page='Home',hls=null;
+const demo=[
+ {name:'Contoh Live Channel',url:'',group:'Live TV',logo:'📺'},
+ {name:'Contoh Movie',url:'',group:'Movies',logo:'🎬'},
+ {name:'Contoh Kids',url:'',group:'Kids',logo:'🧸'}
+];
+function parseM3U(text){
+ const lines=text.replace(/^\uFEFF/,'').split(/\r?\n/);let current=null,out=[];
+ for(const raw of lines){const line=raw.trim();if(!line)continue;
+  if(line.startsWith('#EXTINF')){
+   const comma=line.indexOf(',');const attrs=line.slice(0,comma<0?line.length:comma);
+   const name=comma>=0?line.slice(comma+1).trim():'Saluran tanpa nama';
+   const group=(attrs.match(/group-title="([^"]*)"/i)||[])[1]||'Live TV';
+   const logo=(attrs.match(/tvg-logo="([^"]*)"/i)||[])[1]||'';
+   current={name,group,logo,url:''};
+  }else if(!line.startsWith('#')&&current){current.url=line;out.push(current);current=null;}
+ }
+ return out;
+}
+function categoryFor(c){const g=(c.group||'').toLowerCase();if(g.includes('movie')||g.includes('film'))return'Movies';if(g.includes('series')||g.includes('drama'))return'Series';if(g.includes('kid')||g.includes('child'))return'Kids';return'Live TV'}
+function render(){
+ const query=$('search').value.toLowerCase();let list=channels.filter(c=>(c.name+' '+c.group).toLowerCase().includes(query));
+ if(page==='Favorites')list=list.filter(c=>favorites.includes(c.url));
+ else if(page==='Home')list=list.slice(0,100);
+ else if(page!=='Settings')list=list.filter(c=>categoryFor(c)===page);
+ $('pageHeading').querySelector('h2').textContent=page==='Home'?'Popular Now':page;
+ $('count').textContent=list.length+' saluran';
+ $('empty').style.display=list.length?'none':'block';$('cards').innerHTML='';
+ if(page==='Settings'){$('cards').innerHTML='<div class="empty" style="grid-column:1/-1"><h3>Settings</h3><p>Import playlist M3U/M3U8 menggunakan butang ＋ Playlist di bahagian atas.</p><p>Playlist disimpan dalam sesi pelayar ini sahaja. Import semula selepas menutup atau memuat semula halaman.</p><button class="btn" id="clearBtn">Kosongkan playlist</button></div>';$('empty').style.display='none';$('clearBtn').onclick=()=>{channels=[];render()};return}
+ for(const c of list){const card=document.createElement('article');card.className='card';
+  const thumb=document.createElement('div');thumb.className='thumb';
+  if(c.logo){const img=document.createElement('img');img.src=c.logo;img.alt='';img.onerror=()=>thumb.textContent='📺';thumb.append(img)}else thumb.textContent='📺';
+  const info=document.createElement('div');info.className='card-info';
+  const title=document.createElement('strong');title.textContent=c.name;const sub=document.createElement('small');sub.textContent=c.group||'Live TV';
+  const actions=document.createElement('div');actions.className='card-actions';
+  const play=document.createElement('button');play.textContent='▶ Main';play.disabled=!c.url;play.onclick=()=>playChannel(c);
+  const fav=document.createElement('button');fav.textContent=favorites.includes(c.url)?'★ Simpan':'☆ Favorit';fav.onclick=()=>{if(favorites.includes(c.url))favorites=favorites.filter(x=>x!==c.url);else favorites.push(c.url);localStorage.setItem('navigator-favs',JSON.stringify(favorites));render()};
+  actions.append(play,fav);info.append(title,sub,actions);card.append(thumb,info);$('cards').append(card);
+ }
+}
+function playChannel(c){
+ if(!c.url)return;
+ const video=$('video');$('playerWrap').classList.add('show');$('nowPlaying').textContent=c.name;
+ if(hls){hls.destroy();hls=null}video.pause();video.removeAttribute('src');video.load();
+ if(window.Hls&&Hls.isSupported()&&(/\.m3u8($|\?)/i.test(c.url)||true)){hls=new Hls();hls.loadSource(c.url);hls.attachMedia(video);hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play().catch(()=>{}));}
+ else{video.src=c.url;video.play().catch(()=>{})}
+}
+$('importBtn').onclick=()=>$('playlistFile').click();
+$('playlistFile').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const parsed=parseM3U(await file.text());if(!parsed.length)alert('Tiada saluran ditemui. Pastikan fail mempunyai format M3U yang betul.');else{channels=parsed;page='Home';document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));render();alert(parsed.length+' saluran berjaya dimuatkan.')}}catch(err){alert('Tidak dapat membaca fail playlist.')}e.target.value=''};
+$('search').addEventListener('input',render);
+$('nav').addEventListener('click',e=>{const b=e.target.closest('button[data-page]');if(!b)return;page=b.dataset.page;document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x===b));render()});
+$('closePlayer').onclick=()=>{$('video').pause();$('playerWrap').classList.remove('show');if(hls){hls.destroy();hls=null}};
+
+const savedPlaylistStore=[];
+function showAdmin(){ $('adminPanel').classList.add('show'); $('playerWrap').classList.remove('show'); renderSavedPlaylists(); }
+function renderSavedPlaylists(){ const wrap=$('savedPlaylists');wrap.innerHTML=''; if(!savedPlaylistStore.length){wrap.innerHTML='<div class="empty" style="grid-column:1/-1">Belum ada playlist tersimpan dalam sesi ini.</div>';return;} savedPlaylistStore.forEach((item,index)=>{const card=document.createElement('div');card.className='card';const info=document.createElement('div');info.className='card-info';const title=document.createElement('strong');title.textContent=item.name;const count=document.createElement('small');count.textContent=item.channels.length+' saluran';const actions=document.createElement('div');actions.className='card-actions';const use=document.createElement('button');use.textContent='Jadikan utama';use.onclick=()=>{channels=item.channels;page='Home';$('adminPanel').classList.remove('show');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));render();};const del=document.createElement('button');del.textContent='Padam';del.onclick=()=>{savedPlaylistStore.splice(index,1);renderSavedPlaylists();};actions.append(use,del);info.append(title,count,actions);card.append(info);wrap.append(card);});}
+$('adminBtn').onclick=showAdmin;$('closeAdmin').onclick=()=>$('adminPanel').classList.remove('show');
+$('saveAdminPlaylist').onclick=async()=>{const file=$('adminFile').files[0];if(!file){alert('Pilih fail playlist M3U/M3U8 dahulu.');return;}const parsed=parseM3U(await file.text());if(!parsed.length){alert('Tiada saluran ditemui dalam fail ini.');return;}const name=$('playlistName').value.trim()||file.name;savedPlaylistStore.push({name,channels:parsed});channels=parsed;page='Home';document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));$('adminPanel').classList.remove('show');render();alert(parsed.length+' saluran dimuatkan sebagai playlist utama pada peranti ini.');};
+
+render();
+</script>
+</body>
+</html>
